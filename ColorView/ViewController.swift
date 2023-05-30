@@ -52,7 +52,11 @@ class ViewController: UIViewController {
     }
     
     private func setupColorizedView() {
-        colorizedView.backgroundColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1)
+        colorizedView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1)
     }
 
 
