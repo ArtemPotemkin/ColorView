@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class SettingsViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet var colorizedView: UIView!
@@ -20,28 +20,36 @@ class ViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
+    var color: UIColor!
+    var delegate: SettingsViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         colorizedView.layer.cornerRadius = 15
         setupSliders()
+        setupValueLabels()
         setupColorizedView()
     }
     
     // MARK: - IBActions
     @IBAction func redSliderAction() {
-        redValueLabel.text = String(format: "%.2f", redSlider.value)
+        redValueLabel.text = string(from: redSlider)
         setupColorizedView()
     }
     
     @IBAction func greenSliderAction() {
-        greenValueLabel.text = String(format: "%.2f", greenSlider.value)
+        greenValueLabel.text = string(from: greenSlider)
         setupColorizedView()
     }
     
     @IBAction func blueSliderAction() {
-        blueValueLabel.text = String(format: "%.2f", blueSlider.value)
+        blueValueLabel.text = string(from: blueSlider)
         setupColorizedView()
+    }
+    
+    @IBAction func doneButtonTapped() {
+        delegate.setNewBackgroundColor(color: colorizedView.backgroundColor ?? .cyan)
+        dismiss(animated: true)
     }
     
     // MARK: - Private Methods
@@ -49,6 +57,15 @@ class ViewController: UIViewController {
         redSlider.minimumTrackTintColor = .red
         greenSlider.minimumTrackTintColor = .green
         blueSlider.minimumTrackTintColor = .systemBlue
+        
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        redSlider.value = Float(red)
+        greenSlider.value = Float(green)
+        blueSlider.value = Float(blue)
     }
     
     private func setupColorizedView() {
@@ -58,6 +75,15 @@ class ViewController: UIViewController {
             blue: CGFloat(blueSlider.value),
             alpha: 1
         )
+    }
+    
+    private func setupValueLabels() {
+        redValueLabel.text = string(from: redSlider)
+        greenValueLabel.text = string(from: greenSlider)
+        blueValueLabel.text = string(from: blueSlider)
+    }
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
     }
 
 
