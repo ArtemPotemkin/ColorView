@@ -30,6 +30,9 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         colorizedView.layer.cornerRadius = 15
+        redTextField.delegate = self
+        greenTextField.delegate = self
+        blueTextField.delegate = self
         setupSliders()
         setupValueLabels()
         setupTextFieldText()
@@ -111,9 +114,28 @@ final class SettingsViewController: UIViewController {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         let leftSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: .none, action: .none)
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: .none, action: #selector(hideKeyboard))
         toolBar.setItems([leftSpace, button], animated: true)
         //        toolBar.isUserInteractionEnabled = true
         [redTextField, greenTextField, blueTextField].forEach { $0?.inputAccessoryView = toolBar}
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+// MARK: - UITextViewDelegate
+extension SettingsViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let newValue = textField.text else { return }
+        guard let numberFloat = Float(newValue) else { return }
+        if textField == redTextField {
+            redSlider.value = numberFloat
+        } else if textField == greenTextField {
+            greenSlider.value = numberFloat
+        } else {
+            blueSlider.value = numberFloat
+        }
     }
 }
