@@ -32,6 +32,7 @@ final class SettingsViewController: UIViewController {
         colorizedView.layer.cornerRadius = 15
         setupSliders()
         setupValueLabels()
+        setupTextFieldText()
         setupColorizedView()
         setupToolBar()
     }
@@ -44,16 +45,19 @@ final class SettingsViewController: UIViewController {
     // MARK: - IBActions
     @IBAction func redSliderAction() {
         redValueLabel.text = string(from: redSlider)
+        redTextField.text = redValueLabel.text
         setupColorizedView()
     }
     
     @IBAction func greenSliderAction() {
         greenValueLabel.text = string(from: greenSlider)
+        greenTextField.text = greenValueLabel.text
         setupColorizedView()
     }
     
     @IBAction func blueSliderAction() {
         blueValueLabel.text = string(from: blueSlider)
+        blueTextField.text = blueValueLabel.text
         setupColorizedView()
     }
     
@@ -92,8 +96,15 @@ final class SettingsViewController: UIViewController {
         greenValueLabel.text = string(from: greenSlider)
         blueValueLabel.text = string(from: blueSlider)
     }
+    
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
+    }
+    
+    private func setupTextFieldText() {
+        redTextField.text = redValueLabel.text
+        greenTextField.text = greenValueLabel.text
+        blueTextField.text = blueValueLabel.text
     }
     
     private func setupToolBar() {
