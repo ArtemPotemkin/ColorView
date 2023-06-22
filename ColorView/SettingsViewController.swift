@@ -11,7 +11,7 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet var colorizedView: UIView!
-  
+    
     @IBOutlet var redValueLabel: UILabel!
     @IBOutlet var greenValueLabel: UILabel!
     @IBOutlet var blueValueLabel: UILabel!
@@ -19,6 +19,10 @@ final class SettingsViewController: UIViewController {
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
+    
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
     
     var color: UIColor!
     var delegate: SettingsViewControllerDelegate!
@@ -29,6 +33,12 @@ final class SettingsViewController: UIViewController {
         setupSliders()
         setupValueLabels()
         setupColorizedView()
+        setupToolBar()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     // MARK: - IBActions
@@ -85,7 +95,14 @@ final class SettingsViewController: UIViewController {
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
-
-
+    
+    private func setupToolBar() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let leftSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: .none, action: .none)
+        toolBar.setItems([leftSpace, button], animated: true)
+        //        toolBar.isUserInteractionEnabled = true
+        [redTextField, greenTextField, blueTextField].forEach { $0?.inputAccessoryView = toolBar}
+    }
 }
-
