@@ -24,9 +24,11 @@ final class SettingsViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
+    // MARK: - Public Properties
     var color: UIColor!
     var delegate: SettingsViewControllerDelegate!
     
+    // MARK: - View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
         colorizedView.layer.cornerRadius = 15
@@ -141,19 +143,19 @@ final class SettingsViewController: UIViewController {
     }
 }
 
-// MARK: - UITextViewDelegate
+// MARK: - UITextFieldDelegate
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let newValue = textField.text else { return }
         guard let numberFloat = Float(newValue) else { return }
         if textField == redTextField {
-            redSlider.value = numberFloat
+            redSlider.setValue(numberFloat, animated: true)
             redValueLabel.text = string(from: redSlider)
         } else if textField == greenTextField {
-            greenSlider.value = numberFloat
+            greenSlider.setValue(numberFloat, animated: true)
             greenValueLabel.text = string(from: greenSlider)
         } else {
-            blueSlider.value = numberFloat
+            blueSlider.setValue(numberFloat, animated: true)
             blueValueLabel.text = string(from: blueSlider)
         }
         setupColorizedView()
