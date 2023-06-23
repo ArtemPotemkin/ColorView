@@ -30,9 +30,11 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         colorizedView.layer.cornerRadius = 15
+        
         redTextField.delegate = self
         greenTextField.delegate = self
         blueTextField.delegate = self
+        
         setupSliders()
         setupValueLabels()
         setupTextFieldText()
@@ -113,11 +115,25 @@ final class SettingsViewController: UIViewController {
     private func setupToolBar() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
-        let leftSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: .none, action: #selector(hideKeyboard))
+        
+        let leftSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: .none,
+            action: .none
+        )
+        
+        let button = UIBarButtonItem(
+            title: "Done",
+            style: .plain,
+            target: .none,
+            action: #selector(hideKeyboard)
+        )
+        
         toolBar.setItems([leftSpace, button], animated: true)
-        //        toolBar.isUserInteractionEnabled = true
-        [redTextField, greenTextField, blueTextField].forEach { $0?.inputAccessoryView = toolBar}
+        
+        [redTextField,
+         greenTextField,
+         blueTextField].forEach { $0?.inputAccessoryView = toolBar}
     }
     
     @objc private func hideKeyboard() {
@@ -132,10 +148,14 @@ extension SettingsViewController: UITextFieldDelegate {
         guard let numberFloat = Float(newValue) else { return }
         if textField == redTextField {
             redSlider.value = numberFloat
+            redValueLabel.text = string(from: redSlider)
         } else if textField == greenTextField {
             greenSlider.value = numberFloat
+            greenValueLabel.text = string(from: greenSlider)
         } else {
             blueSlider.value = numberFloat
+            blueValueLabel.text = string(from: blueSlider)
         }
+        setupColorizedView()
     }
 }
